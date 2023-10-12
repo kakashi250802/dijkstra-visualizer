@@ -40,6 +40,14 @@ def validate_vertex(vertex):
     # Cho phép chữ cái (in hoa hoặc in thường) và chữ số
     return re.match(r'^[a-zA-Z0-9]+$', vertex)
 
+def validate_edge_weight(weight):
+    # Kiểm tra xem trọng số có là một số không âm hay không
+    try:
+        weight = int(weight)
+        return weight > 0
+    except ValueError:
+        return False
+
 def draw_graph():
     global G, pos
     G = nx.DiGraph()
@@ -61,8 +69,8 @@ def draw_graph():
                 return
 
             u, v, weight = edge_components
-            if not validate_vertex(u) or not validate_vertex(v):
-                result_text.set("Lỗi: Đỉnh không hợp lệ.")
+            if not validate_vertex(u) or not validate_vertex(v) or not validate_edge_weight(weight):
+                result_text.set("Lỗi: Đỉnh hoặc trọng số không hợp lệ.")
                 return
 
             weight = int(weight)
